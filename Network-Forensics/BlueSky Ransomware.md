@@ -7,7 +7,8 @@ Reconstruct a BlueSky ransomware attack by analyzing network traffic, decoding P
 - Network Miner
 - Windows Event Viewer
 - Event Log Explorer
-- VirusTotal CyberChef
+- VirusTotal
+- CyberChef
 
 ## Scenario
 

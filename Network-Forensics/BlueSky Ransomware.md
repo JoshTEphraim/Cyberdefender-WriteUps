@@ -74,7 +74,17 @@ Openning it we can see the first source being PowerShell  and the Event is 400 w
 
 **ANS: `winlogon.exe`**
 
-6. 
+6. ***Following privilege escalation, the attacker attempted to download a file. Can you identify the URL of this file downloaded?***
+
+Filtering using `http and http.request.method==GET` in our wireshark we see that the first file the attacker attempted to download was a PowerShell file with the `.ps1` extension meaning this was a script.
+
+<img width="1272" height="791" alt="image" src="https://github.com/user-attachments/assets/46d5191f-3659-4103-a55a-601cb9168770" />
+
+The scripts is actual a malware specifically a dropper which is used to compromise windows systems by disabling security features, check for privileges, establishes perisistance in essence it is the initial stage preparing the system for the main malware to drop either a cryptominer or a ransomware
+
+**ANS: `checking.ps1`***
+
+7. ***Understanding which group Security Identifier (SID) the malicious script checks to verify the current user's privileges can provide insights into the attacker's intentions. Can you provide the specific Group SID that is being checked?***
 
 
 

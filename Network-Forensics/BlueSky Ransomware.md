@@ -68,6 +68,8 @@ This will inturn enable the attacker to run commands that can potentially harm o
 
 In process injection the attacker tries to inject code in a legitimate process in order to aviod detection by security systems. So now we know a new pocess must have been started, we will then look at using the Event Log viewer tool. 
 
+<img width="1103" height="877" alt="image" src="https://github.com/user-attachments/assets/b34d0bdf-45e7-457b-971b-9b14ed7ab230" />
+
 Openning it we can see the first source being PowerShell  and the Event is 400 which means the beginning of a new powershell host, expl=anding it we can see that the `PreviousEngineState=None` and now its on Available mode meaning it has been started hence the Event no. We see the Hostnameas `MSFConsole` a tool used by penetration testers to gain shells or exploit vulnerabilities on a system and its running on a HostApplication `winlogon.exe` which is used to manage a users login/logout. This solidifies our quest that the attacker used a legitimate windows process to hide the `MSFConsole` process as it is used to gain remote access which means communicating with a C2 (command and control)
 
 **ANS: `winlogon.exe`**

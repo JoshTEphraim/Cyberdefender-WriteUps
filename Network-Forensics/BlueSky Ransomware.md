@@ -87,6 +87,86 @@ The scripts is actual a malware specifically a dropper which is used to compromi
 
 7. ***Understanding which group Security Identifier (SID) the malicious script checks to verify the current user's privileges can provide insights into the attacker's intentions. Can you provide the specific Group SID that is being checked?***
 
+Following the stream of the powershell script we found, on the very first line of the script we can see that it checks if the current user has admistrative privileges and looks at the groups the user belongs to and searches for the adminstrators SID for which the result will be shown as TRUE/FALSE
+
+<img width="1288" height="804" alt="image" src="https://github.com/user-attachments/assets/3ffe3338-cf90-4cc8-8659-71dccd2ca43e" />
+
+Lets break down the script 
+- `[System.Security.Principal.WindowsIdentity]::GetCurrent())` - Checks for the currently logged in user
+- `.groups` - List the security groups the user belongs to
+- `-match "S-1-5-32-544")` - Checks wether the provied SID belongs to the group
+- `$priv = [bool]` - Returns TRUE/FALSE if TRUE then the script is running as administrator
+
+**ANS: `S-1-5-32-544`**
+
+8. ***Windows Defender plays a critical role in defending against cyber threats. If an attacker disables it, the system becomes more vulnerable to further attacks. What are the registry keys used by the attacker to disable Windows Defender functionalities? Provide them in the same order found.***
+
+To begin we need to know what windows Registry is, this is a hierachical database that stores configurations for windows. apllications and hardware. This is a valuable source for attackers as the registry acts as a control center for the Windows system, changing anything here can have adverse effects on the system.
+
+Sticking to our stream further down we can see that the registry keys were modified and the crucial component was the disbling of the windows antivirus Windows Defender.
+
+<img width="1282" height="649" alt="image" src="https://github.com/user-attachments/assets/8f8fe03b-3612-4d54-96ce-9d53400b162e" />
+
+The attacker through the registry keys modified the path that houses the Windows Defender settings and Disabled them in order to avoid being detected and blocked by the antivirus. This is a persistence technique addressed by the Mitre ID T1112 (Modify Registry)
+
+**ANS: DisableAntiSpyware, DisableRoutinelyTakingAction, DisableRealtimeMonitoring, SubmitSamplesConsent, SpynetReporting**
+
+9.***Can you determine the URL of the second file downloaded by the attacker?***
+
+Using the query `http.request.method==GET` we can see there is a second script the attacker requested to get 
+
+<img width="1535" height="733" alt="image" src="https://github.com/user-attachments/assets/77ab68e4-c4de-4c8c-bd53-67344fc1c9a4" />
+
+**ANS: `hxxp[://]87[.]96[.]21[.]84/del[.]ps1`
+
+10.***Identifying malicious tasks and understanding how they were used for persistence helps in fortifying defenses against future attacks. What's the full name of the task created by the attacker to maintain persistence?***
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

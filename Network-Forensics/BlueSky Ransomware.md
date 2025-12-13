@@ -141,9 +141,16 @@ We see that the attacker downloads another script `del.ps1` and store it in `C:\
 
 11. ***Based on your analysis of the second malicious file, What is the MITRE ID of the main tactic the second file tries to accomplish?***
 
+Looking over to the second script that was dropped which we know is `de1.ps1` and follow the HTTP Stream we see the script trying to remove `Wmi-Object` which provides access to the Windows Management Instrumentation which is used for monitoring events
+
+<img width="1283" height="468" alt="image" src="https://github.com/user-attachments/assets/01c0a4cc-2098-4bee-8bf4-7829c904a576" />
 
 
+The script is meant to delete this object using `Remove-WmiObject` and a list of security monitoring tools such as ***`ProcessHacker, procexp64...` etc*** which it kills them in order to avoid detection and later it terminates itself to avoid leaving any traces, this is an act on defense evation and we can conclude from the MITRE ATT&CK Enterprise Tactics section to be Defense Evasion
 
+**ANS: TA0005**
+
+12. ***What's the invoked PowerShell script used by the attacker for dumping credentials?***
 
 
 

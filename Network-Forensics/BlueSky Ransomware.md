@@ -156,26 +156,41 @@ Invoke-command  is a cmdlet used to run command on a local or remote computer an
 
 <img width="1289" height="793" alt="image" src="https://github.com/user-attachments/assets/63789850-43fb-48da-ae6d-cfb6d970371a" />
 
-and as we follow the workings of this script we see that its used to dump hashes, which are hashed passwords of users. This techniques is referred as **Credential Dumping** which is used to extract Usernames, Passwords, Kerberos Tickets ...etc.from a systems memory or storage in in order for the attacker to escalate his privileges further
+and as we follow the workings of this script we see that its used to dump hashes, which are hashed passwords of users. This techniques is referred as **Credential Dumping** which is used to extract Usernames, Passwords, Kerberos Tickets ...etc.from a systems memory or storage often target windows security systems as LSASS (Local Security Authority Subsystem Service) or the SAM(Security Accounts Manager) database  in order for the attacker to escalate his privileges further
 
 ***ANS: Invoke-PowerDump.ps1***
 
 13. ***Understanding which credentials have been compromised is essential for assessing the extent of the data breach. What's the name of the saved text file containing the dumped credentials?***
 
+Now that we know of the script we can use the command `http contains "Invoke-PowerDump.ps1" ` to isolate HTTP traffc involving the specific script. This script is often used by attacker in performing credential dumping
 
+<img width="1547" height="792" alt="image" src="https://github.com/user-attachments/assets/c75f7de0-84ff-4fd3-8356-04d2369e2fdb" />
 
+We will focus on the HTTP request and responses and we can see that the attacker used the served host `http://87.96.21.84` to downloaded and execute the `Invoke-PowerDump.ps1` script. Following the stream of the HTTP 200 response we can see that the attacker used a base64 obfuscation technique to hide a file which was used to dump the credentials. Attacker used this techniques in order to by-pass defenses and avoid being flagged
 
+<img width="1591" height="825" alt="image" src="https://github.com/user-attachments/assets/d07e98b3-f60a-4226-b3f7-10fc0f2ff4dd" />
 
+A tool called [CyberChef](https://gchq.github.io/CyberChef/#recipe=URL_Decode(true)&input=SGVsbG8lMkMlMjB3b3JsZCUyMQ) can be used to deobfuscate the encoded text
 
+<img width="1477" height="672" alt="image" src="https://github.com/user-attachments/assets/7b3410b1-a964-46a4-a681-ed54884c115a" />
 
+**ANS: hashes.txt**
 
+14. ***Knowing the hosts targeted during the attacker's reconnaissance phase, the security team can prioritize their remediation efforts on these specific hosts. What's the name of the text file containing the discovered hosts?***
 
+On the same stream we can see that the attacker dumped the credentials in a `.txt` file 
 
+<img width="1284" height="805" alt="image" src="https://github.com/user-attachments/assets/c1bb2d15-e07b-4f6f-b149-548d6798e237" />
 
+The contents of this file likely contains the list of IP addresses or hostnames identified from his script above
 
+<img width="1286" height="813" alt="image" src="https://github.com/user-attachments/assets/6be2b432-ff5a-44e3-9b03-aa7613b29109" />
 
+The `Invoke-SMBExec` is a powershell function used for remote code execution and lateral movement within a network mostly leveraging the SMB protocol on port 445 which is a network-file sharing protocol used for sharing files, printers, and other resources between computers. This can be mitigated by using Privileged Account Management (Limiting credential overlap), User Account Control(enabling UAC restrictions to local accounts on network logon), Updating the system and User Account management(refrain from adding the domain user in multiple local administrator groups).
 
+**ANS: extracted_hosts.txt**
 
+15. ***After hash dumping, the attacker attempted to deploy ransomware on the compromised host, spreading it to the rest of the network through previous lateral movement activities using SMB. You’re provided with the ransomware sample for further analysis. By performing behavioral analysis, what’s the name of the ransom note file?***
 
 
 

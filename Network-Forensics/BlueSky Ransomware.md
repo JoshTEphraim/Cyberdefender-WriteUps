@@ -152,6 +152,16 @@ The script is meant to delete this object using `Remove-WmiObject` and a list of
 
 12. ***What's the invoked PowerShell script used by the attacker for dumping credentials?***
 
+Invoke-command  is a cmdlet used to run command on a local or remote computer and it has many use cases, in this its was used to get a script `Invoke-PowerDump.ps1` 
+
+<img width="1289" height="793" alt="image" src="https://github.com/user-attachments/assets/63789850-43fb-48da-ae6d-cfb6d970371a" />
+
+and as we follow the workings of this script we see that its used to dump hashes, which are hashed passwords of users. This techniques is referred as **Credential Dumping** which is used to extract Usernames, Passwords, Kerberos Tickets ...etc.from a systems memory or storage in in order for the attacker to escalate his privileges further
+
+***ANS: Invoke-PowerDump.ps1***
+
+13. ***Understanding which credentials have been compromised is essential for assessing the extent of the data breach. What's the name of the saved text file containing the dumped credentials?***
+
 
 
 

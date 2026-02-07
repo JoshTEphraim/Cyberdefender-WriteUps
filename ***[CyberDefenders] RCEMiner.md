@@ -25,7 +25,16 @@ Analyze the provided PCAP file using the network analysis tools available to you
 
 **QUESTIONS**
 
-1. 
+1. ***To identify the entry point of the attack and prevent similar breaches in the future, it’s crucial to recognize the vulnerability that was exploited and the method used by the attacker to execute unauthorized commands. Which vulnerability was exploited to gain initial access to the public webserver?***
+
+By using google we can go ahead and google the name of the lab *RCEMIner* and we receive a hit on a vulnerability regarding the exploit on a PHP server that leads to a remote code execution. More can be found in [Akamai's](https://www.akamai.com/blog/security-research/2024-php-exploit-cve-one-day-after-disclosure#com) article.
+
+<img width="1083" height="450" alt="image" src="https://github.com/user-attachments/assets/69eadcd5-0021-4d40-b230-43d0cba5518c" />
+
+*ANS: `CVE-2024-4577`
+
+2. ***A specific Unicode character is used in the exploit to manipulate how the server interpretes command-line arguments, bypassing the standard input handling. What is the Unicode code point of this character?***
+
 
 
 

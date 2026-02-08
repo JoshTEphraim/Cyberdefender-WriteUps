@@ -119,28 +119,39 @@ Copying the encoded url and posting it on the swiss army kniife (CyberChef) we f
 
 8. ***Knowing the destination of the data being exfiltrated or reported by the malware helps in tracing the attacker and blocking further communications to malicious servers. The compromised server was used to report system performance metrics back to the attacker. What is the IP address and port number to which this data was sent?***
 
+we need to use the query `dns and ip.src==36.96.48.3` to identify dns queries from the compromised server and identify what domain resolutions were performed by the malware
 
+<img width="1242" height="462" alt="image" src="https://github.com/user-attachments/assets/c30516d0-fcf0-403e-b820-a93c0315fe74" />
 
+From the query we see a suspicious domain on the info section. To find the ip of the domain we need to go to *statistics -> Resolve Addresses* 
 
+<img width="1446" height="636" alt="image" src="https://github.com/user-attachments/assets/18271db0-62cc-4b9b-b31d-0712bf26628b" />
 
+After getting the Ip of the domain we can then proceed to add it as a filter `ip.src==36.96.48.3 and ip.dst==218.244.58.70`
 
+<img width="1390" height="590" alt="image" src="https://github.com/user-attachments/assets/eb195497-f1e1-4694-a3ad-2f77adac4eb0" />
 
+The malware can be seen communication with an Ip `218.244.58.70` on port `9011` following the stream reveals to us that the malware was configured to monitor the servers resources and report back to the C2 server.
 
+<img width="1283" height="730" alt="image" src="https://github.com/user-attachments/assets/21b9a11a-75ff-4b8f-97c5-f9110e2eea10" />
 
+*ANS: `218.244.58.70:9011`*
 
+9. ***Identifying the specific cryptomining software used by the attacker allows for better detection and removal of similar threats in the future. The malware deployed specific software to utilize the compromised server's resources for cryptomining. What mining software and version was used?***
 
+from the dns resolution we can see a domain that is reolving two different IP addresses
 
+<img width="632" height="476" alt="image" src="https://github.com/user-attachments/assets/69391e3d-1e78-4941-8924-cba6b1709a57" />
 
+lets use one of the ip adress on our query `ip.dst==43.129.150.155` and follow the TCP Stream
 
+<img width="1288" height="259" alt="image" src="https://github.com/user-attachments/assets/78e33adf-ddd7-4245-951d-1d6eadc07370" />
 
+we come across a software called `XMRig` and doing a quick google serach we find that its a cryptominer for mining `monero`
 
+<img width="1138" height="480" alt="image" src="https://github.com/user-attachments/assets/6fdf6e8a-2162-47d5-9230-eae54813214a" />
 
-
-
-
-
-
-
+*ANS: `XMRig/5.5.0`*
 
 
 
